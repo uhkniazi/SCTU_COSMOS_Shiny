@@ -86,27 +86,44 @@ cosmos_showAvailableOmicsMetadata = function(dbCon, dataID){
 }
 
 ## get clinical data of specific type given study id
-cosmos_getClinicalDataForStudy = function(dbCon, studyID, clinicalData){
-  if (is.null(studyID)) stop('Error give study id')
-  if (is.null(clinicalData)) stop('Error give clinical data type')
+cosmos_getClinicalDataForStudy <- function(dbCon, studyID, clinicalData) {
+  if (is.null(studyID)) stop('Error: Provide study ID')
+  if (is.null(clinicalData)) stop('Error: Provide clinical data type')
   
-  df = dbGetQuery(dbCon, paste0("select subject.Study_idStudy idStudy, idUnit, idAnonymised, 
-  cd.Value timepoint, cd.Description timepoint_des, 
-  cd2.Type, cd2.Value, cd2.Description from subject 
-  inner join clinicaldata cd 
-  on subject.idUnit = cd.Subject_idUnit 
-  inner join clinicaldata cd2 
-  on subject.idUnit = cd2.Subject_idUnit 
-  where subject.Study_idStudy =", studyID, "and cd.Type='Visit_type' 
-  and cd2.Type='", clinicalData, "'"))
+  query <- sprintf("
+    SELECT 
+      subject.Study_idStudy AS idStudy,
+      subject.idUnit, 
+      subject.idAnonymised,
+      cd.Value AS timepoint, 
+      cd.Description AS timepoint_des,
+      cd2.Type, 
+      cd2.Value, 
+      cd2.Description 
+    FROM subject
+    INNER JOIN clinicaldata cd 
+      ON subject.idUnit = cd.Subject_idUnit 
+    INNER JOIN clinicaldata cd2 
+      ON subject.idUnit = cd2.Subject_idUnit 
+    WHERE subject.Study_idStudy = %d 
+      AND cd.Type = 'Visit_type' 
+      AND cd2.Type = '%s'
+  ", as.integer(studyID), clinicalData)
   
-  # rearrange column names, tidy up
-  i = which(colnames(df) == 'Value')
-  colnames(df)[i] = df[1, 'Type']
-  i = which(colnames(df) == 'Type')
-  df = df[, -i]
+  df <- dbGetQuery(dbCon, query)
+  
+  # Rename and drop columns
+  if (nrow(df) > 0) {
+    value_col_index <- which(colnames(df) == "Value")
+    if (length(value_col_index) > 0) {
+      colnames(df)[value_col_index] <- df[1, "Type"]
+    }
+    df <- df[, !colnames(df) %in% "Type"]
+  }
+  
   return(df)
 }
+
 
 ## get all clinical data for specific study
 ## this table can be very large in size
