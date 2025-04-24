@@ -296,27 +296,27 @@ server <- function(input, output) {
       # generate the EDA plots
       output$edaPlot1 = renderPlot({
         if (nlevels(fBatch) > 3) par(mfrow=c(1,2))
-        boxplot.median.summary(oDiag.1, fBatch, axis.label.cex = 1)
+        boxplot.median.summary(oDiag.1, fBatch, axis.label.cex = 0.7)
       })
       
       output$edaPlot2 = renderPlot({
         if (nlevels(fBatch) > 3) par(mfrow=c(1,2))
-        plot.mean.summary(oDiag.1, fBatch, axis.label.cex = 1)
+        plot.mean.summary(oDiag.1, fBatch, axis.label.cex = 0.7)
       })
       
       output$edaPlot3 = renderPlot({
         if (nlevels(fBatch) > 3) par(mfrow=c(1,2))
-        plot.sigma.summary(oDiag.1, fBatch, axis.label.cex = 1)
+        plot.sigma.summary(oDiag.1, fBatch, axis.label.cex = 0.7)
       })
       
       output$edaPlot4 = renderPlot({
         if (nlevels(fBatch) > 3) par(mfrow=c(1,2))
-        plot.PCA(oDiag.1, fBatch)
+        plot.PCA(oDiag.1, fBatch, csLabels = '')
       })
       
       output$edaPlot5 = renderPlot({
         if (nlevels(fBatch) > 3) par(mfrow=c(1,2))
-        plot.dendogram(oDiag.1, fBatch, labels_cex = 1)
+        plot.dendogram(oDiag.1, fBatch, labels_cex = 0.7)
       })
     } else {
       output$outputText1 <- renderPrint("Please load data and select a column first.")
