@@ -1,11 +1,7 @@
 # Name: 00_cosmosDB_utilities.R
-# Auth: u.niazi@soton.ac.uk
-# Date: 28/05/2024
+# Auth: u.niazi@soton.ac.uk; C.A.K.Roberts@soton.ac.uk
+# Date: 24/04/2025
 # Desc: a collection of utility functions that can be make it easier to query the db
-
-## copied from https://github.com/uhkniazi/SCTU_COSMIC_DB/blob/d1bc64d3119d99b1107ce0ad62ddd712847bde61/00_cosmosDB_utilities.R#L1
-## updated on 11-DEC-2024
-## note: added get all clinical data query
 
 #### please see here if you get some errors like
 # Error: nanodbc/nanodbc.cpp:3170: 07009
@@ -14,6 +10,9 @@
 #   In dbClearResult(rs) : Result already cleared
 ## https://stackoverflow.com/questions/45001152/r-dbi-odbc-error-nanodbc-nanodbc-cpp3110-07009-microsoftodbc-driver-13-fo
 ## you can work around it by changing the index of the longer columns to be towards the end of the query
+
+## if using mysql workbench and you get error if trying to write to table
+## do this inside mysql workbench SET GLOBAL local_infile = 'ON';
 
 ### log in
 cosmos_login = function(database = 'cosmos_shiny_demo'){
