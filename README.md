@@ -1,8 +1,4 @@
----
-output:
-  html_document: default
-  pdf_document: default
----
+
 R Shiny Applications Based on the COSMOS Database
 ================
 
