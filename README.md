@@ -1,6 +1,9 @@
 
-R Shiny Applications Based on the COSMOS Database
+R Shiny Applications for Integrated Clinical and Translational Data Exploration and Analysis: Democratising Discovery through the COSMOS Database  
 ================
+Manuscript under review in Journal Clinical Trials.  
+Previous paper in this series (https://doi.org/10.1177/17407745241304331)  
+Repository for previous paper (https://github.com/uhkniazi/SCTU_SQLDB_Supplementary)  
 
 # Supplementary Materials
 
